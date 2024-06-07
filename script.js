@@ -9,6 +9,8 @@ let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
 let operators = document.querySelectorAll(".operator")
 
+const operatorArr = [];
+
 let operatorValues = {
     divide: "/",
     multiply: "*",
@@ -38,17 +40,18 @@ function operate(op, a, b) {
 }
 
 function populateDisplay(num) {
-    if (displayNum.textContent === "0") {
+    let value = displayNum.textContent;
+    if (value === "0" || operatorArr.includes(value)) {
         displayNum.textContent = num;
         displayValueOne = num;
     } else {
         displayNum.textContent += num;
-        displayValueOne = displayNum.textContent;
+        displayValueOne = value;
     }
 }
 
 function manageNums(operator) {
-    console.log(operator);
+    
 }
 
 numBtns.forEach(btn => {
@@ -67,10 +70,12 @@ clearBtn.addEventListener("click", () => {
 operators.forEach(btn => {
     btn.addEventListener("click", (e) => {
         let value = e.target.innerHTML;
+        displayNum.textContent = value;
         for (let key in operatorValues) {
             if (value == operatorValues[key]) {
                 value = key;
             }
+            operatorArr.push(operatorValues[key]);
         }
         manageNums(value);
     });
