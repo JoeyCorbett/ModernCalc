@@ -14,12 +14,12 @@ body {
 .calculator-div {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-direction: column;
-    height: 610px;
-    width: 320px;
-    border: 4px solid #000000;
-    border-radius: 20px;
+    height: 535px;
+    width: 275px;
+    border: 3px solid #000000;
+    border-radius: 12px;
     background-color: #bababa;
 }
 
@@ -27,11 +27,11 @@ body {
     display: flex;
     justify-content: end;
     align-items: end;
-    height: 180px;
-    width: 270px;
+    height: 165px;
+    width: 235px;
     margin-top: 8px;
     border: 3px solid rgb(18, 18, 18);
-    border-radius: 10px;
+    border-radius: 6px;
     background-color: white;
 }
 
@@ -49,13 +49,13 @@ body {
     align-items: center;
     flex-wrap: wrap;
     max-height: 480px;
-    width: 330px;
-    margin-top: 0px;
+    width: 290px;
+    margin-top: 5px;
     margin-bottom: 5px;
 }
 
 #clear {
-    margin-right: 154px;
+    margin-right: 122px;
 }
 
 #divide {
@@ -67,7 +67,7 @@ body {
     width: 57px;
     border: 2px solid #000000;
     border-radius: 10px;
-    margin: 7px;
+    margin: 2px;
     background-color: rgb(255, 255, 255);
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
@@ -81,10 +81,10 @@ body {
 
 .zero {
     height: 57px;
-    width: 133px;
+    width: 120px;
     border: 2px solid #333333;
     border-radius: 10px;
-    margin: 5px;
+    margin: 2px;
     background-color: rgb(255, 255, 255);
     transition: transform 0.2s, background-color 0.2s;
     font-size: 18px;
@@ -97,6 +97,10 @@ body {
 
 .nums.decimal {
     font-size: 30px;
+}
+
+.selected {
+    border: 4px solid black;
 }
 
 

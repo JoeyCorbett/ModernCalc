@@ -8,9 +8,12 @@ let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
 let operators = document.querySelectorAll(".operator")
 let equals = document.querySelector(".equals");
+let calculator = document.querySelector(".calculator-div");
+
 let num1Flag = true;
 let num2Flag = false;
 let sumFlag = false;
+let isSelected = false;
 
 let divideBtn = document.querySelector(".divide");
 let multiplyBtn = document.querySelector(".multiply");
@@ -47,16 +50,9 @@ function operate(op, a, b) {
 }
 
 function populateDisplay(num) {
-    if ((typeof num === 'number' && num1Flag) || sumFlag) {
+    if (typeof num === 'number') {
         displayNum.textContent = num;
-    } else {
-        displayNum.textContent += ` ${num}`;
     }
-    
-}
-
-function opFlag() {
-    num1Flag = false;
 }
 
 
@@ -98,31 +94,35 @@ clearBtn.addEventListener("click", () => {
     });
 }); */
 
+calculator.addEventListener('dblclick', (event) => {
+    event.preventDefault();
+}, { passive: false });
+
+
 divideBtn.addEventListener("click", () => {
     operator = divide;
     populateDisplay("÷");
-    opFlag();
+    divideBtn.classList.toggle
+    num1Flag = false;
 });
 
 multiplyBtn.addEventListener("click", () => {
     operator = multiply;
     populateDisplay("x");
-    opFlag();
+    num1Flag = false;
 });
 
 addBtn.addEventListener("click", () => {
     operator = sum;
     populateDisplay("+");
-    opFlag();
+    num1Flag = false;
 });
 
 subtractionBtn.addEventListener("click", () => {
     operator = subtract;
     populateDisplay("-");
-    opFlag();
+    num1Flag = false;
 })
-
-
 
 equals.addEventListener("click", () => {
     console.log(num1Flag, num2Flag)
@@ -141,8 +141,8 @@ equals.addEventListener("click", () => {
 
 
 // Store first and second number input
-    // Figure out how to store 2+ digit numbers
+// Figure out how to store 2+ digit numbers
 // Utilize operator that user selects
-// Operate on two numbers when user presses "="
 // Once operate() called udpate display with solution of operation
- 
+
+// Operate on two numbers when user presses "="
