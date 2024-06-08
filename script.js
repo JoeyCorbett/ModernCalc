@@ -4,6 +4,7 @@ let num2 = "";
 let firstNum = false;
 
 const numBtns = document.querySelectorAll(".input");
+const allBtns = document.querySelectorAll(".nums, .zero");
 let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
 let operators = document.querySelectorAll(".operator")
@@ -13,7 +14,11 @@ let calculator = document.querySelector(".calculator-div");
 let num1Flag = true;
 let num2Flag = false;
 let sumFlag = false;
-let isSelected = false;
+
+let divideActive = false;
+let multiplyActive = false;
+let sumActive = false;
+let subtractActive = false;
 
 let divideBtn = document.querySelector(".divide");
 let multiplyBtn = document.querySelector(".multiply");
@@ -55,6 +60,18 @@ function populateDisplay(num) {
     }
 }
 
+function active() {
+    if (divideActive) {
+        divideBtn.classList.remove("selected");
+    } else if (multiplyActive) {
+        multiplyBtn.classList.remove("selected");
+    } else if (sumActive) {
+        addBtn.classList.remove("selected");
+    } else if (subtractActive) {
+        subtractionBtn.classList.remove("selected");
+    } 
+}
+
 
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -62,11 +79,9 @@ numBtns.forEach(btn => {
         if (num1Flag) {
             num1 += value;
             populateDisplay(+num1);
-            console.log(`NUM1: ${num1}`); 
         } else {
             num2 += value;
             populateDisplay(+num2);
-            console.log(`NUM2: ${num2}`); 
             num2Flag = true;
         }
     });
@@ -79,6 +94,7 @@ clearBtn.addEventListener("click", () => {
     num2Flag = false;
     num1 = "";
     num2 = "";
+    active();
 });
 
 /* operators.forEach(btn => {
@@ -101,48 +117,52 @@ calculator.addEventListener('dblclick', (event) => {
 
 divideBtn.addEventListener("click", () => {
     operator = divide;
-    populateDisplay("÷");
-    divideBtn.classList.toggle
     num1Flag = false;
+    divideBtn.classList.add("selected");
+    divideActive = true;
 });
 
 multiplyBtn.addEventListener("click", () => {
     operator = multiply;
-    populateDisplay("x");
+    active(multiplyBtn);
     num1Flag = false;
+    multiplyBtn.classList.add("selected");
+    multiplyActive = true;
 });
 
 addBtn.addEventListener("click", () => {
     operator = sum;
-    populateDisplay("+");
+    active(addBtn);
     num1Flag = false;
+    addBtn.classList.add("selected");
+    sumActive = true;
 });
 
 subtractionBtn.addEventListener("click", () => {
     operator = subtract;
-    populateDisplay("-");
+    active(subtractionBtn);
     num1Flag = false;
+    subtractionBtn.classList.add("selected");
+    subtractActive = true;
 })
 
 equals.addEventListener("click", () => {
-    console.log(num1Flag, num2Flag)
     if (!num1Flag && num2Flag) {
         sumFlag = true;
         populateDisplay(operate(operator, +num1, +num2));
         sumFlag = false;
+        active();
     }
 });
 
 
-// Take first number and store it once operator is pushed
-// Put operator next to first value
-// Take second operator and store it once equal is pushed
-// second first val, second val, and operator to operate
+allBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        btn.classList.toggle("clicked");
+        setTimeout(() => {
+            btn.classList.toggle("clicked");
+        }, 50);
+    });
+});
 
 
-// Store first and second number input
-// Figure out how to store 2+ digit numbers
-// Utilize operator that user selects
-// Once operate() called udpate display with solution of operation
-
-// Operate on two numbers when user presses "="
