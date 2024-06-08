@@ -8,7 +8,7 @@ let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
 let operators = document.querySelectorAll(".operator")
 let equals = document.querySelector(".equals");
-let num1Flag = true;;
+let num1Flag = true;
 let num2Flag = false;
 let sumFlag = false;
 
@@ -57,7 +57,6 @@ function populateDisplay(num) {
 
 function opFlag() {
     num1Flag = false;
-    num2Flag = true;
 }
 
 
@@ -68,10 +67,11 @@ numBtns.forEach(btn => {
             num1 += value;
             populateDisplay(+num1);
             console.log(`NUM1: ${num1}`); 
-        } else if (num2Flag) {
+        } else {
             num2 += value;
             populateDisplay(+num2);
             console.log(`NUM2: ${num2}`); 
+            num2Flag = true;
         }
     });
 });
@@ -128,7 +128,7 @@ equals.addEventListener("click", () => {
     console.log(num1Flag, num2Flag)
     if (!num1Flag && num2Flag) {
         sumFlag = true;
-        populateDisplay(operate(operator, num1, num2));
+        populateDisplay(operate(operator, +num1, +num2));
         sumFlag = false;
     }
 });
