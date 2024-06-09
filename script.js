@@ -7,9 +7,9 @@ const numBtns = document.querySelectorAll(".input");
 const allBtns = document.querySelectorAll(".nums, .zero");
 let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
-let operators = document.querySelectorAll(".operator")
 let equals = document.querySelector(".equals");
 let calculator = document.querySelector(".calculator-div");
+let operatorBtns = document.querySelectorAll(".operator")
 
 let num1Flag = true;
 let num2Flag = false;
@@ -24,15 +24,6 @@ let divideBtn = document.querySelector(".divide");
 let multiplyBtn = document.querySelector(".multiply");
 let addBtn = document.querySelector(".addition");
 let subtractionBtn = document.querySelector(".subtract");
-
-const operatorArr = [];
-
-let operatorValues = {
-    divide: "÷",
-    multiply: "x",
-    sum: "+",
-    subtract: "-"
-}
 
 function sum(a, b) {
     return a + b;
@@ -72,6 +63,14 @@ function active() {
     } 
 }
 
+function allClear() {
+    if (displayNum.textContent !== "0") {
+        clearBtn.textContent = "C";
+    } else {
+        clearBtn.textContent = "AC";
+    }
+}
+
 
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -79,11 +78,14 @@ numBtns.forEach(btn => {
         if (num1Flag) {
             num1 += value;
             populateDisplay(+num1);
+            console.log(`Num1: ${num1}`);
         } else {
             num2 += value;
             populateDisplay(+num2);
             num2Flag = true;
+            console.log(`Num2: ${num2}`);
         }
+        allClear();
     });
 });
 
@@ -95,20 +97,8 @@ clearBtn.addEventListener("click", () => {
     num1 = "";
     num2 = "";
     active();
+    allClear();
 });
-
-/* operators.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-        let operatorValue = e.target.innerHTML; 
-        for (let key in operatorValues) {
-            if (operatorValue == operatorValues[key]) {
-                operator = key;
-            }
-            operatorArr.push(operatorValues[key]);
-        }
-        flag = true;
-    });
-}); */
 
 calculator.addEventListener('dblclick', (event) => {
     event.preventDefault();
@@ -152,17 +142,29 @@ equals.addEventListener("click", () => {
         populateDisplay(operate(operator, +num1, +num2));
         sumFlag = false;
         active();
+        allClear();
     }
 });
 
 
 allBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-        btn.classList.toggle("clicked");
+        btn.classList.toggle("clicked-white");
         setTimeout(() => {
-            btn.classList.toggle("clicked");
-        }, 50);
+            btn.classList.toggle("clicked-white");
+        }, 40);
     });
 });
+
+
+/* operatorBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        btn.classList.toggle("clicked-red");
+        setTimeout(() => {
+            btn.classList.toggle("clicked-red");
+        }, 40);
+    });
+});
+*/
 
 
