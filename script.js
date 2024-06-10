@@ -154,11 +154,13 @@ equals.addEventListener("click", () => {
     if (!num1Flag && num2Flag) {
         sumFlag = true;
         solution = operate(operator, +num1, +num2);
+        if (!Number.isInteger(solution)) {
+            solution = +solution.toFixed(4);
+        }
         populateDisplay(solution);
         continueCalc();
         sumFlag = false;
         active();
-       
     }
 });
 
