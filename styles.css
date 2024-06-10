@@ -19,11 +19,11 @@ footer p{
 .fa-brands {
     color: rgb(238, 225, 225);
     transition: transform 0.3s ease-in-out;
-    font-size: 24px;
+    font-size: 23px;
 }
 
 .fa-brands:hover {
-    transform: rotate(360deg) scale(1.2);)
+    transform: rotate(360deg) scale(1.2);
 }
 
 .calculator-div {

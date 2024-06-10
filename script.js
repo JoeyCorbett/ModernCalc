@@ -175,10 +175,15 @@ buttons.addEventListener("mouseup", () => {
 
 allBtns.forEach(btn => {
     btn.addEventListener("mousedown", () => {
-        btn.classList.toggle("clicked-white");
+        btn.classList.add("clicked-white");
     });
     btn.addEventListener("mouseup", () => {
-        btn.classList.toggle("clicked-white");
+        btn.classList.remove("clicked-white");
+    });
+    buttons.addEventListener('mousemove', (event) => {
+        if (!btn.contains(event.target)) {
+            btn.classList.remove("clicked-white");
+        }
     });
 });
 
@@ -189,6 +194,11 @@ topBtns.forEach(btn => {
     btn.addEventListener("mouseup", () => {
         btn.id = "";
     });
+    buttons.addEventListener('mousemove', (event) => {
+        if (!btn.contains(event.target)) {
+            btn.id = "";
+        }
+    });
 });
 
 operatorBtns.forEach(btn => {
@@ -197,7 +207,12 @@ operatorBtns.forEach(btn => {
     });
     btn.addEventListener("mouseup", () => {
         btn.id = "";
-    })
+    });
+    buttons.addEventListener('mousemove', (event) => {
+        if (!btn.contains(event.target)) {
+            btn.id = "";
+        }
+    });
 });
 
 
