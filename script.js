@@ -1,19 +1,24 @@
 let operator;
 let num1 = "";
 let num2 = "";
-let firstNum = false;
+let solution = "";
 
 const numBtns = document.querySelectorAll(".input");
-const allBtns = document.querySelectorAll(".nums, .zero");
+const allBtns = document.querySelectorAll(".input, .zero, .decimal");
 let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
 let equals = document.querySelector(".equals");
 let calculator = document.querySelector(".calculator-div");
-let operatorBtns = document.querySelectorAll(".operator")
+let topBtns = document.querySelectorAll(".clear, .plus-minus, .percent");
+let operatorBtns = document.querySelectorAll(".operator, .equals")
+let buttons = document.querySelector(".buttons");
+
+let isClicked = false;
 
 let num1Flag = true;
 let num2Flag = false;
 let sumFlag = false;
+let clearFlag = true;
 
 let divideActive = false;
 let multiplyActive = false;
@@ -64,10 +69,18 @@ function active() {
 }
 
 function allClear() {
-    if (displayNum.textContent !== "0") {
-        clearBtn.textContent = "C";
-    } else {
+    if (clearFlag) {
         clearBtn.textContent = "AC";
+    } else {
+        clearBtn.textContent = "C";
+    }
+}
+
+function continueCalc() {
+    if (sumFlag) {
+        num1 = solution;
+        console.log(num1);
+        num2 = "";
     }
 }
 
@@ -85,6 +98,7 @@ numBtns.forEach(btn => {
             num2Flag = true;
             console.log(`Num2: ${num2}`);
         }
+        clearFlag = false;
         allClear();
     });
 });
@@ -97,6 +111,7 @@ clearBtn.addEventListener("click", () => {
     num1 = "";
     num2 = "";
     active();
+    clearFlag = true;
     allClear();
 });
 
@@ -125,7 +140,6 @@ addBtn.addEventListener("click", () => {
     active(addBtn);
     num1Flag = false;
     addBtn.classList.add("selected");
-    sumActive = true;
 });
 
 subtractionBtn.addEventListener("click", () => {
@@ -134,37 +148,57 @@ subtractionBtn.addEventListener("click", () => {
     num1Flag = false;
     subtractionBtn.classList.add("selected");
     subtractActive = true;
-})
+});
 
 equals.addEventListener("click", () => {
     if (!num1Flag && num2Flag) {
         sumFlag = true;
-        populateDisplay(operate(operator, +num1, +num2));
+        solution = operate(operator, +num1, +num2);
+        populateDisplay(solution);
+        continueCalc();
         sumFlag = false;
         active();
-        allClear();
+       
     }
 });
 
 
-allBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
+buttons.addEventListener("mousedown", (e) => {
+    if (e.button == 0) {
+        isClicked = true;
+    }
+});
+
+buttons.addEventListener("mouseup", () => {
+    isClicked = false;
+});
+
+allBtns.forEach(btn => {
+    btn.addEventListener("mousedown", () => {
         btn.classList.toggle("clicked-white");
-        setTimeout(() => {
-            btn.classList.toggle("clicked-white");
-        }, 40);
+    });
+    btn.addEventListener("mouseup", () => {
+        btn.classList.toggle("clicked-white");
     });
 });
 
-
-/* operatorBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        btn.classList.toggle("clicked-red");
-        setTimeout(() => {
-            btn.classList.toggle("clicked-red");
-        }, 40);
+topBtns.forEach(btn => {
+    btn.addEventListener("mousedown", () => {
+        btn.id = "clicked-gray"
+    });
+    btn.addEventListener("mouseup", () => {
+        btn.id = "";
     });
 });
-*/
+
+operatorBtns.forEach(btn => {
+    btn.addEventListener("mousedown", () => {
+        btn.id = "clicked-red";
+    });
+    btn.addEventListener("mouseup", () => {
+        btn.id = "";
+    })
+});
+
 
 
