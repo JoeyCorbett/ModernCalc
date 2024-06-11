@@ -12,23 +12,14 @@ let calculator = document.querySelector(".calculator-div");
 let topBtns = document.querySelectorAll(".clear, .plus-minus, .percent");
 let operatorBtns = document.querySelectorAll(".operator, .equals")
 let buttons = document.querySelector(".buttons");
+let operators = document.querySelectorAll(".divide, .multiply, .addition, .subtract");
 
 let isClicked = false;
-
 let num1Flag = true;
 let num2Flag = false;
-let sumFlag = false;
 let clearFlag = true;
 
-let divideActive = false;
-let multiplyActive = false;
-let sumActive = false;
-let subtractActive = false;
-
-let divideBtn = document.querySelector(".divide");
-let multiplyBtn = document.querySelector(".multiply");
-let addBtn = document.querySelector(".addition");
-let subtractionBtn = document.querySelector(".subtract");
+// Calculator Logic
 
 function sum(a, b) {
     return a + b;
@@ -56,7 +47,7 @@ function populateDisplay(num) {
     }
 }
 
-function active() {
+/* function active() {
     if (divideActive) {
         divideBtn.classList.remove("selected");
     } else if (multiplyActive) {
@@ -66,7 +57,7 @@ function active() {
     } else if (subtractActive) {
         subtractionBtn.classList.remove("selected");
     } 
-}
+} */
 
 function allClear() {
     if (clearFlag) {
@@ -77,13 +68,9 @@ function allClear() {
 }
 
 function continueCalc() {
-    if (sumFlag) {
-        num1 = solution;
-        console.log(num1);
-        num2 = "";
-    }
+    num1 = solution;
+    num2 = "";
 }
-
 
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -110,7 +97,7 @@ clearBtn.addEventListener("click", () => {
     num2Flag = false;
     num1 = "";
     num2 = "";
-    active();
+    //active();
     clearFlag = true;
     allClear();
 });
@@ -120,50 +107,38 @@ calculator.addEventListener('dblclick', (event) => {
 }, { passive: false });
 
 
-divideBtn.addEventListener("click", () => {
-    operator = divide;
-    num1Flag = false;
-    divideBtn.classList.add("selected");
-    divideActive = true;
+operators.forEach(btn => {
+    btn.addEventListener("click", (event) => {
+       if (event.target.classList.contains("divide")) {
+            operator = divide;
+            num1Flag = false;
+       } else if (event.target.classList.contains("multiply")) {
+            operator = multiply;
+            num1Flag = false;
+       } else if (event.target.classList.contains("subtract")) {
+            operator = subtract;
+            num1Flag = false;
+       } else if (event.target.classList.contains("addition")) {
+            operator = sum;
+            num1Flag = false;
+       }
+    });
 });
 
-multiplyBtn.addEventListener("click", () => {
-    operator = multiply;
-    active(multiplyBtn);
-    num1Flag = false;
-    multiplyBtn.classList.add("selected");
-    multiplyActive = true;
-});
-
-addBtn.addEventListener("click", () => {
-    operator = sum;
-    active(addBtn);
-    num1Flag = false;
-    addBtn.classList.add("selected");
-});
-
-subtractionBtn.addEventListener("click", () => {
-    operator = subtract;
-    active(subtractionBtn);
-    num1Flag = false;
-    subtractionBtn.classList.add("selected");
-    subtractActive = true;
-});
 
 equals.addEventListener("click", () => {
     if (!num1Flag && num2Flag) {
-        sumFlag = true;
         solution = operate(operator, +num1, +num2);
         if (!Number.isInteger(solution)) {
             solution = +solution.toFixed(4);
         }
         populateDisplay(solution);
         continueCalc();
-        sumFlag = false;
-        active();
+        //active();
     }
 });
 
+// Click Effects
 
 buttons.addEventListener("mousedown", (e) => {
     if (e.button == 0) {
