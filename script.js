@@ -151,10 +151,10 @@ equals.addEventListener("click", () => {
 
 percentBtn.addEventListener("click", () => {
     if (num1Flag && num1 >= 0.001) {
-        num1 /= 10;
+        num1 /= 100;
         populateDisplay(num1);
     } else if (num2 >= 0.001) {
-        num2 /= 10;
+        num2 /= 100;
         populateDisplay(num2);
     }
 });
