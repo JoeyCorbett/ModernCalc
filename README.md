@@ -15,23 +15,6 @@ Welcome to **ModernCalc** – an on-screen calculator created for the Odin Proje
 
 [View ModernCalc Live](https://joeycorbett.github.io/ModernCalc/) 👈
 
-## Installation
-
-To run this project locally:
-
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/JoeyCorbett/Calculator.git
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd Calculator
-    ```
-3. Open `index.html` in your browser:
-    ```bash
-    open index.html
-    ```
-
 ## Usage
 
 - Click the buttons to perform calculations.
