@@ -14,6 +14,8 @@ let operatorBtns = document.querySelectorAll(".operator, .equals")
 let buttons = document.querySelector(".buttons");
 let operators = document.querySelectorAll(".divide, .multiply, .addition, .subtract");
 
+let operatorArr = [];
+
 let isClicked = false;
 let num1Flag = true;
 let num2Flag = false;
@@ -72,18 +74,17 @@ function continueCalc() {
     num2 = "";
 }
 
+
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
         let value = e.target.innerHTML
         if (num1Flag) {
             num1 += value;
             populateDisplay(+num1);
-            console.log(`Num1: ${num1}`);
         } else {
             num2 += value;
             populateDisplay(+num2);
             num2Flag = true;
-            console.log(`Num2: ${num2}`);
         }
         clearFlag = false;
         allClear();
@@ -110,17 +111,22 @@ calculator.addEventListener('dblclick', (event) => {
 operators.forEach(btn => {
     btn.addEventListener("click", (event) => {
        if (event.target.classList.contains("divide")) {
-            operator = divide;
+            operatorArr.push(divide);
             num1Flag = false;
        } else if (event.target.classList.contains("multiply")) {
-            operator = multiply;
+            operatorArr.push(multiply);
             num1Flag = false;
        } else if (event.target.classList.contains("subtract")) {
-            operator = subtract;
+            operatorArr.push(subtract);
             num1Flag = false;
        } else if (event.target.classList.contains("addition")) {
-            operator = sum;
+            operatorArr.push(sum);
             num1Flag = false;
+       } if (!num1Flag && num2Flag) {
+        let n = operatorArr.length;
+        solution  = operate(operatorArr[n - 2], +num1, +num2);
+        populateDisplay(solution);
+        continueCalc();
        }
     });
 });
@@ -128,7 +134,8 @@ operators.forEach(btn => {
 
 equals.addEventListener("click", () => {
     if (!num1Flag && num2Flag) {
-        solution = operate(operator, +num1, +num2);
+        let n = operatorArr.length;
+        solution = operate(operatorArr[n - 1], +num1, +num2);
         if (!Number.isInteger(solution)) {
             solution = +solution.toFixed(4);
         }
