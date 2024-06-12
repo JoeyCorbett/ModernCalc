@@ -77,7 +77,9 @@ function continueCalc() {
 }
 
 function round() {
-    solution = +solution.toFixed(3);
+    if (typeof (solution) !== "undefined") {
+        solution = +solution.toFixed(3);
+    }
 }
 
 numBtns.forEach(btn => {

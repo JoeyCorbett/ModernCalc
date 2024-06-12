@@ -11,7 +11,7 @@ body {
 }
 
 footer p{
-    font-size: 21px;
+    font-size: 22px;
     color: rgb(238, 225, 225);
     text-align: center;
 }
@@ -79,6 +79,7 @@ footer p{
 .nums {
     height: 59px;
     width: 59px;
+    padding: 0px;
     border: 1px solid #000000;
     margin: .2px;
     border-radius: 3px;
@@ -90,11 +91,17 @@ footer p{
     font-family: 'Rajdhani', sans-serif;
 }
 
+.operator, .equals {
+    background-color: rgb(250, 106, 105);
+    font-size: 33px;
+    color: rgb(238, 225, 225);
+}
 
 .zero {
     height: 59px;
     width: 118px;
     border: 1px solid #000000;
+    border-radius: 3px;
     background-color: rgb(64, 64, 64);
     transition: transform 0.2s, background-color 0.2s;
     font-size: 22px;
@@ -121,12 +128,6 @@ footer p{
     background-color: rgb(255, 179, 178)
 }
 
-.operator, .equals {
-    background-color: rgb(250, 106, 105);
-    font-size: 33px;
-    color: rgb(238, 225, 225)
-}
-
 .clear, .plus-minus, .percent {
     background-color: rgb(115, 115, 115);
     color: rgb(38, 38, 38)
@@ -140,5 +141,3 @@ footer p{
 .equals {
     border-bottom-right-radius: 22px;
 }
-
-
