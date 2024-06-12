@@ -13,6 +13,7 @@ let topBtns = document.querySelectorAll(".clear, .plus-minus, .percent");
 let operatorBtns = document.querySelectorAll(".operator, .equals")
 let buttons = document.querySelector(".buttons");
 let operators = document.querySelectorAll(".divide, .multiply, .addition, .subtract");
+let percentBtn = document.querySelector(".percent");
 
 let operatorArr = [];
 
@@ -36,7 +37,8 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    if (b === 0) displayNum.textContent = "Error";
+    else return a / b;
 }
 
 function operate(op, a, b) {
@@ -74,6 +76,9 @@ function continueCalc() {
     num2 = "";
 }
 
+function round() {
+    solution = +solution.toFixed(3);
+}
 
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -112,21 +117,22 @@ operators.forEach(btn => {
     btn.addEventListener("click", (event) => {
        if (event.target.classList.contains("divide")) {
             operatorArr.push(divide);
-            num1Flag = false;
        } else if (event.target.classList.contains("multiply")) {
             operatorArr.push(multiply);
-            num1Flag = false;
        } else if (event.target.classList.contains("subtract")) {
             operatorArr.push(subtract);
-            num1Flag = false;
        } else if (event.target.classList.contains("addition")) {
             operatorArr.push(sum);
-            num1Flag = false;
-       } if (!num1Flag && num2Flag) {
-        let n = operatorArr.length;
-        solution  = operate(operatorArr[n - 2], +num1, +num2);
-        populateDisplay(solution);
-        continueCalc();
+       }
+
+       num1Flag = false;
+
+       if (!num1Flag && num2Flag) {
+            let n = operatorArr.length;
+            solution  = operate(operatorArr[n - 2], +num1, +num2);
+            if (!Number.isInteger(solution)) round();
+            populateDisplay(solution);
+            continueCalc();
        }
     });
 });
@@ -136,12 +142,20 @@ equals.addEventListener("click", () => {
     if (!num1Flag && num2Flag) {
         let n = operatorArr.length;
         solution = operate(operatorArr[n - 1], +num1, +num2);
-        if (!Number.isInteger(solution)) {
-            solution = +solution.toFixed(4);
-        }
+        if (!Number.isInteger(solution)) round();
         populateDisplay(solution);
         continueCalc();
         //active();
+    }
+});
+
+percentBtn.addEventListener("click", () => {
+    if (num1Flag && num1 >= 0.001) {
+        num1 /= 10;
+        populateDisplay(num1);
+    } else if (num2 >= 0.001) {
+        num2 /= 10;
+        populateDisplay(num2);
     }
 });
 
