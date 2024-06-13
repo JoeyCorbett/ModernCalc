@@ -75,6 +75,8 @@ function allClear() {
 function continueCalc() {
     num1 = solution;
     num2 = "";
+    console.log(`Num1: ${num1}`);
+    console.log(`Num2: ${num2}`);
 }
 
 function round() {
@@ -148,17 +150,28 @@ equals.addEventListener("click", () => {
         if (!Number.isInteger(solution)) round();
         populateDisplay(solution);
         continueCalc();
-        //active();
+        console.log(`Num1Flag: ${num1Flag}`);
+        console.log(`Num2Flag: ${num2Flag}`);
     }
 });
 
+// everytime equals without operator
+    // use last operator in array
+    // operate on solution (num1) & num2
+
 percentBtn.addEventListener("click", () => {
+    console.log(`Num1Flag: ${num1Flag}`);
+    console.log(`Num2Flag: ${num2Flag}`);
     if (num1Flag && num1 >= 0.001) {
         num1 /= 100;
         populateDisplay(num1);
     } else if (num2 >= 0.001) {
         num2 /= 100;
         populateDisplay(num2);
+    } else if (!num1Flag && num2Flag) {
+        solution /= 100;
+        populateDisplay(solution);
+        continueCalc();
     }
 });
 
@@ -175,9 +188,17 @@ negationBtn.addEventListener("click", () => {
     } else if (Math.sign(num2) == 1) {
         num2 = -num2;
         populateDisplay(num2)
-    } else {
+    } else if (Math.sign(num2) == -1) {
         num2 = Math.abs(num2);
         populateDisplay(num2);
+    } else if ((!num1Flag && num2Flag) && Math.sign(solution) == 1) {
+        solution = -solution;
+        populateDisplay(solution)
+        continueCalc();
+    } else if ((!num1Flag && num2Flag) && Math.sign(solution) == -1) {
+        solution = Math.abs(solution);
+        populateDisplay(solution);
+        continueCalc();
     }
 });
 
