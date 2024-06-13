@@ -14,6 +14,7 @@ let operatorBtns = document.querySelectorAll(".operator, .equals")
 let buttons = document.querySelector(".buttons");
 let operators = document.querySelectorAll(".divide, .multiply, .addition, .subtract");
 let percentBtn = document.querySelector(".percent");
+let negationBtn = document.querySelector(".plus-minus");
 
 let operatorArr = [];
 
@@ -157,6 +158,25 @@ percentBtn.addEventListener("click", () => {
         populateDisplay(num1);
     } else if (num2 >= 0.001) {
         num2 /= 100;
+        populateDisplay(num2);
+    }
+});
+
+// If positive, convert to negative
+// If negative, convert to positive
+
+negationBtn.addEventListener("click", () => {
+    if (num1Flag && Math.sign(num1) == 1) {
+        num1 = -num1;
+        populateDisplay(num1);      
+    } else if (num1Flag) {
+        num1 = Math.abs(num1);
+        populateDisplay(num1);
+    } else if (Math.sign(num2) == 1) {
+        num2 = -num2;
+        populateDisplay(num2)
+    } else {
+        num2 = Math.abs(num2);
         populateDisplay(num2);
     }
 });
