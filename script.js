@@ -3,6 +3,8 @@ let num1 = "";
 let num2 = "";
 let solution = "";
 
+const boop = document.getElementById("macOS-boop");
+
 const numBtns = document.querySelectorAll(".input");
 const allBtns = document.querySelectorAll(".input, .zero, .decimal");
 let displayNum = document.querySelector(".display-numbers");
@@ -74,11 +76,8 @@ function allClear() {
 }
 
 function continueCalc() {
-    console.log(solution);
     num1 = solution;
     num2 = "";
-    console.log(`Num1: ${num1}`);
-    console.log(`Num2: ${num2}`);
 }
 
 function round() {
@@ -136,6 +135,19 @@ function handleOperators(key) {
             break;
     }
     num1Flag = false;
+}
+
+function handleBackspace() {
+    if (displayNum.textContent == "0") boop.play();
+    if (num1Flag && num1.length > 0) {
+        num1 = num1.slice(0, num1.length - 1);
+        populateDisplay(+num1);
+    } else if (num2Flag && num2.length > 0) {
+        num2 = num2.slice(0, num2.length - 1);
+        populateDisplay(+num2);
+    } else if (solution !== "") {
+        boop.play();
+    }
 }
 
 
@@ -238,15 +250,14 @@ document.addEventListener("keydown", (event) => {
         manageNums(key);
     } else if (operatorList.includes(key)) {
         handleOperators(key);
-    } else if (key === "Enter") {
-        console.log("enter");
+    } else if (key === "Enter" || key === "=") {
         handleEquals();
     } else if (key === "c" || key === "Escape") {
         handleClear();
+    } else if (key === "Backspace") {
+        handleBackspace();
     }
-
 });
-
 
 // Click Effects
 
@@ -301,6 +312,5 @@ operatorBtns.forEach(btn => {
         }
     });
 });
-
 
 
