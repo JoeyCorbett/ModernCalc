@@ -55,17 +55,6 @@ function populateDisplay(num) {
     }
 }
 
-/* function active() {
-    if (divideActive) {
-        divideBtn.classList.remove("selected");
-    } else if (multiplyActive) {
-        multiplyBtn.classList.remove("selected");
-    } else if (sumActive) {
-        addBtn.classList.remove("selected");
-    } else if (subtractActive) {
-        subtractionBtn.classList.remove("selected");
-    } 
-} */
 
 function allClear() {
     if (clearFlag) {
@@ -105,6 +94,7 @@ function handleEquals() {
         solution = operate(operatorArr[n - 1], +num1, +num2);
         if (!Number.isInteger(solution)) round();
         populateDisplay(solution);
+        delay();
         continueCalc();
     }
 }
@@ -117,6 +107,7 @@ function handleClear() {
     num2 = "";
     clearFlag = true;
     allClear();
+
 }
 
 function handleOperators(key) {
@@ -145,11 +136,16 @@ function handleBackspace() {
     } else if (num2Flag && num2.length > 0) {
         num2 = num2.slice(0, num2.length - 1);
         populateDisplay(+num2);
-    } else if (solution !== "") {
-        boop.play();
-    }
+    } else if (solution !== "") boop.play();
 }
 
+function delay() {
+    let value = displayNum.textContent;
+    displayNum.textContent =  "";
+    setTimeout(() => {
+        displayNum.textContent = value;
+    }, 60);
+}
 
 
 numBtns.forEach(btn => {
@@ -162,6 +158,7 @@ numBtns.forEach(btn => {
 
 clearBtn.addEventListener("click", () => {
     handleClear();
+    operators.forEach((btn) => btn.classList.remove('selected'));
 });
 
 calculator.addEventListener('dblclick', (event) => {
@@ -180,7 +177,7 @@ operators.forEach(btn => {
        } else if (event.target.classList.contains("addition")) {
             operatorArr.push(sum);
        }
-
+       delay();
        num1Flag = false;
 
        if (!num1Flag && num2Flag) {
@@ -196,6 +193,7 @@ operators.forEach(btn => {
 
 equals.addEventListener("click", () => {
     handleEquals();
+    operators.forEach((btn) => btn.classList.remove('selected'));
 });
 
 
@@ -310,6 +308,13 @@ operatorBtns.forEach(btn => {
         if (!btn.contains(event.target)) {
             btn.id = "";
         }
+    });
+});
+
+operators.forEach((button) => {
+    button.addEventListener("click", () => {
+        operators.forEach((btn) => btn.classList.remove('selected'));
+        button.classList.add('selected');
     });
 });
 
