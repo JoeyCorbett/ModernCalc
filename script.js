@@ -17,6 +17,7 @@ let percentBtn = document.querySelector(".percent");
 let negationBtn = document.querySelector(".plus-minus");
 
 let operatorArr = [];
+let operatorList = ["+", "-", "/", "*"];
 
 let isClicked = false;
 let num1Flag = true;
@@ -73,6 +74,7 @@ function allClear() {
 }
 
 function continueCalc() {
+    console.log(solution);
     num1 = solution;
     num2 = "";
     console.log(`Num1: ${num1}`);
@@ -85,32 +87,69 @@ function round() {
     }
 }
 
-numBtns.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-        let value = e.target.innerHTML
-        if (num1Flag) {
-            num1 += value;
-            populateDisplay(+num1);
-        } else {
-            num2 += value;
-            populateDisplay(+num2);
-            num2Flag = true;
-        }
-        clearFlag = false;
-        allClear();
-    });
-});
+function manageNums(num) {
+    if (num1Flag) {
+        num1 += num;
+        populateDisplay(+num1);
+    } else {
+        num2 += num;
+        populateDisplay(+num2);
+        num2Flag = true;
+    }
+    clearFlag = false;
+    allClear();
+}
 
+function handleEquals() {
+    if (!num1Flag && num2Flag) {
+        let n = operatorArr.length;
+        solution = operate(operatorArr[n - 1], +num1, +num2);
+        if (!Number.isInteger(solution)) round();
+        populateDisplay(solution);
+        continueCalc();
+    }
+}
 
-clearBtn.addEventListener("click", () => {
+function handleClear() {
     displayNum.textContent = "0";
     num1Flag = true;
     num2Flag = false;
     num1 = "";
     num2 = "";
-    //active();
     clearFlag = true;
     allClear();
+}
+
+function handleOperators(key) {
+    switch (key) {
+        case "+":
+            operatorArr.push(sum);
+            break;
+        case "-":
+            operatorArr.push(subtract);
+            break;
+        case "/":
+            operatorArr.push(divide);
+            break;
+        case "*":
+            operatorArr.push(multiply);
+            break;
+    }
+    num1Flag = false;
+}
+
+
+
+numBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        let value = e.target.innerHTML;
+        manageNums(value);
+    });
+});
+
+
+clearBtn.addEventListener("click", () => {
+    handleClear();
 });
 
 calculator.addEventListener('dblclick', (event) => {
@@ -144,20 +183,9 @@ operators.forEach(btn => {
 
 
 equals.addEventListener("click", () => {
-    if (!num1Flag && num2Flag) {
-        let n = operatorArr.length;
-        solution = operate(operatorArr[n - 1], +num1, +num2);
-        if (!Number.isInteger(solution)) round();
-        populateDisplay(solution);
-        continueCalc();
-        console.log(`Num1Flag: ${num1Flag}`);
-        console.log(`Num2Flag: ${num2Flag}`);
-    }
+    handleEquals();
 });
 
-// everytime equals without operator
-    // use last operator in array
-    // operate on solution (num1) & num2
 
 percentBtn.addEventListener("click", () => {
     console.log(`Num1Flag: ${num1Flag}`);
@@ -201,6 +229,24 @@ negationBtn.addEventListener("click", () => {
         continueCalc();
     }
 });
+
+// Keyboard Support
+    
+document.addEventListener("keydown", (event) => {
+    let key = event.key;
+    if (Number.isInteger(+key)) {
+        manageNums(key);
+    } else if (operatorList.includes(key)) {
+        handleOperators(key);
+    } else if (key === "Enter") {
+        console.log("enter");
+        handleEquals();
+    } else if (key === "c" || key === "Escape") {
+        handleClear();
+    }
+
+});
+
 
 // Click Effects
 
