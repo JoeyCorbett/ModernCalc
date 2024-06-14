@@ -5,8 +5,9 @@ let solution = "";
 
 const boop = document.getElementById("macOS-boop");
 
+const allBtns = document.querySelectorAll(".nums, .input");
 const numBtns = document.querySelectorAll(".input");
-const allBtns = document.querySelectorAll(".input, .zero, .decimal");
+const inputBtns = document.querySelectorAll(".input, .zero, .decimal");
 let displayNum = document.querySelector(".display-numbers");
 let clearBtn = document.querySelector(".clear");
 let equals = document.querySelector(".equals");
@@ -17,9 +18,17 @@ let buttons = document.querySelector(".buttons");
 let operators = document.querySelectorAll(".divide, .multiply, .addition, .subtract");
 let percentBtn = document.querySelector(".percent");
 let negationBtn = document.querySelector(".plus-minus");
+let decimalBtn = document.querySelector(".decimal");
 
 let operatorArr = [];
 let operatorList = ["+", "-", "/", "*"];
+
+const operatorObj = {
+    "/": "÷",
+    "*": "×",
+    "+": "+",
+    "-": "−"
+}
 
 let isClicked = false;
 let num1Flag = true;
@@ -88,6 +97,7 @@ function manageNums(num) {
     allClear();
 }
 
+
 function handleEquals() {
     if (!num1Flag && num2Flag) {
         let n = operatorArr.length;
@@ -107,7 +117,6 @@ function handleClear() {
     num2 = "";
     clearFlag = true;
     allClear();
-
 }
 
 function handleOperators(key) {
@@ -147,6 +156,10 @@ function delay() {
     }, 60);
 }
 
+function clearSelected() {
+    operators.forEach((btn) => btn.classList.remove('selected'));
+}
+
 
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -158,7 +171,7 @@ numBtns.forEach(btn => {
 
 clearBtn.addEventListener("click", () => {
     handleClear();
-    operators.forEach((btn) => btn.classList.remove('selected'));
+    clearSelected();
 });
 
 calculator.addEventListener('dblclick', (event) => {
@@ -177,29 +190,28 @@ operators.forEach(btn => {
        } else if (event.target.classList.contains("addition")) {
             operatorArr.push(sum);
        }
-       delay();
+
        num1Flag = false;
 
-       if (!num1Flag && num2Flag) {
+       if (!num1Flag && num2Flag && num2 !== "") {
             let n = operatorArr.length;
             solution  = operate(operatorArr[n - 2], +num1, +num2);
             if (!Number.isInteger(solution)) round();
             populateDisplay(solution);
             continueCalc();
        }
+       delay();
     });
 });
 
 
 equals.addEventListener("click", () => {
     handleEquals();
-    operators.forEach((btn) => btn.classList.remove('selected'));
+    clearSelected();
 });
 
 
 percentBtn.addEventListener("click", () => {
-    console.log(`Num1Flag: ${num1Flag}`);
-    console.log(`Num2Flag: ${num2Flag}`);
     if (num1Flag && num1 >= 0.001) {
         num1 /= 100;
         populateDisplay(num1);
@@ -244,20 +256,71 @@ negationBtn.addEventListener("click", () => {
     
 document.addEventListener("keydown", (event) => {
     let key = event.key;
+    let type;
     if (Number.isInteger(+key)) {
         manageNums(key);
+        type = "input";
     } else if (operatorList.includes(key)) {
         handleOperators(key);
+        type = "operator";
     } else if (key === "Enter" || key === "=") {
         handleEquals();
+        type = "equal";
     } else if (key === "c" || key === "Escape") {
         handleClear();
+        type = "clear";
     } else if (key === "Backspace") {
         handleBackspace();
+        type = "backspace";
     }
+
+    handleClick(key, type);
 });
 
 // Click Effects
+
+function handleClick(key, type) {
+    if (type === "input") {
+        inputBtns.forEach(btn => {
+            if (btn.innerHTML === key) {
+                btn.classList.add("clicked-white");
+                setTimeout(() => {
+                    btn.classList.remove("clicked-white");
+                }, 90);
+            }
+        });
+    } else if (type === "operator") {
+        for (let value in operatorObj) {
+            if (key === value) {
+                key = operatorObj[value];
+            }
+        }
+
+        operatorBtns.forEach(btn => {
+            if (key === btn.innerHTML) {
+                btn.id = "clicked-red";
+                setTimeout(() => {
+                    btn.id = "";
+                }, 90);
+
+                clearSelected();
+                btn.classList.add('selected');
+            }
+        });
+    } else if (type === "equal") {
+        equals.id = "clicked-red";
+        setTimeout(() => {
+            equals.id = "";
+        }, 90);
+        clearSelected();
+    } else if (type === "clear") {
+        clearBtn.id = "clicked-gray";
+        setTimeout(() => {
+            clearBtn.id = "";
+        }, 90);
+        clearSelected();
+    }
+}
 
 buttons.addEventListener("mousedown", (e) => {
     if (e.button == 0) {
@@ -269,7 +332,7 @@ buttons.addEventListener("mouseup", () => {
     isClicked = false;
 });
 
-allBtns.forEach(btn => {
+inputBtns.forEach(btn => {
     btn.addEventListener("mousedown", () => {
         btn.classList.add("clicked-white");
     });
@@ -317,5 +380,4 @@ operators.forEach((button) => {
         button.classList.add('selected');
     });
 });
-
 
