@@ -50,7 +50,11 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    if (b === 0) displayNum.textContent = "Error";
+    if (b === 0) {
+        displayNum.textContent = "Error";
+        num1 = 0;
+        num2 = 0;
+    } 
     else return a / b;
 }
 
@@ -59,7 +63,7 @@ function operate(op, a, b) {
 }
 
 function populateDisplay(num) {
-    displayNum.textContent = num;
+    if (num !== undefined) displayNum.textContent = num;
 }
 
 
@@ -72,8 +76,10 @@ function allClear() {
 }
 
 function continueCalc() {
-    num1 = solution;
-    num2 = "";
+    if (solution !== undefined) {
+        num1 = solution;
+        num2 = "";
+    }
 }
 
 function round() {
