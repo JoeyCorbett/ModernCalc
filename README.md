@@ -8,6 +8,8 @@ Welcome to **ModernCalc** – an on-screen calculator created for the Odin Proje
 
 - Simple and intuitive user interface
 - Basic arithmetic operations (addition, subtraction, multiplication, division)
+- Decimal, Percent, and Negation features
+- Audio Feedback
 - Keyboard support for ease of use
 - Responsive design for both desktop and mobile devices
 
@@ -21,5 +23,7 @@ Welcome to **ModernCalc** – an on-screen calculator created for the Odin Proje
 - Use the keyboard for quick input:
   - Numbers: `0-9`
   - Operators: `+`, `-`, `*`, `/`
-  - Enter/Return: `=`
+  - Enter/Return: `=`, `Enter`
   - Clear: `C` or `Escape`
+  - Backspace: `delete`
+  - Decimal: `.`
