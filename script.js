@@ -59,9 +59,7 @@ function operate(op, a, b) {
 }
 
 function populateDisplay(num) {
-    if (typeof num === 'number') {
-        displayNum.textContent = num;
-    }
+    displayNum.textContent = num;
 }
 
 
@@ -148,6 +146,16 @@ function handleBackspace() {
     } else if (solution !== "") boop.play();
 }
 
+function handleDecimal() {
+    if (num1Flag) {
+        num1 += ".";
+        populateDisplay(num1);
+    } else {
+        num2 += ".";
+        populateDisplay(num2);
+    }
+}
+
 function delay() {
     let value = displayNum.textContent;
     displayNum.textContent =  "";
@@ -160,6 +168,13 @@ function clearSelected() {
     operators.forEach((btn) => btn.classList.remove('selected'));
 }
 
+function checkDecimals() {
+    let text = displayNum.textContent;
+    for (let num = 0; num < text.length; num++) {
+        if (text[num] === ".") return false;
+    }
+    return true;
+}
 
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -252,6 +267,11 @@ negationBtn.addEventListener("click", () => {
     }
 });
 
+decimalBtn.addEventListener("click", () => {
+    if (checkDecimals()) handleDecimal();
+    else boop.play();
+});
+
 // Keyboard Support
     
 document.addEventListener("keydown", (event) => {
@@ -263,6 +283,7 @@ document.addEventListener("keydown", (event) => {
     } else if (operatorList.includes(key)) {
         handleOperators(key);
         type = "operator";
+        delay();
     } else if (key === "Enter" || key === "=") {
         handleEquals();
         type = "equal";
@@ -272,12 +293,18 @@ document.addEventListener("keydown", (event) => {
     } else if (key === "Backspace") {
         handleBackspace();
         type = "backspace";
+    } else if (key === ".") {
+        if (checkDecimals()) handleDecimal();
+        else boop.play();
+        type = "decimal";
     }
 
     handleClick(key, type);
 });
 
-// Click Effects
+// Click Effects 
+
+// Effects for keyboard inputs
 
 function handleClick(key, type) {
     if (type === "input") {
@@ -319,8 +346,15 @@ function handleClick(key, type) {
             clearBtn.id = "";
         }, 90);
         clearSelected();
+    } else if (type === "decimal") {
+        decimalBtn.classList.add("clicked-white");
+        setTimeout(() => {
+            decimalBtn.classList.remove("clicked-white");
+        }, 90);
     }
 }
+
+// Effects for button inputs
 
 buttons.addEventListener("mousedown", (e) => {
     if (e.button == 0) {
