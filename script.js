@@ -82,6 +82,16 @@ function round() {
     }
 }
 
+function previousCalc() {
+    if (!num1Flag && num2Flag && num2 !== "") {
+        let n = operatorArr.length;
+        solution  = operate(operatorArr[n - 2], +num1, +num2);
+        if (!Number.isInteger(solution)) round();
+        populateDisplay(solution);
+        continueCalc();
+   }
+}
+
 function manageNums(num) {
     if (num1Flag) {
         num1 += num;
@@ -176,6 +186,7 @@ function checkDecimals() {
     return true;
 }
 
+
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
         let value = e.target.innerHTML;
@@ -208,13 +219,7 @@ operators.forEach(btn => {
 
        num1Flag = false;
 
-       if (!num1Flag && num2Flag && num2 !== "") {
-            let n = operatorArr.length;
-            solution  = operate(operatorArr[n - 2], +num1, +num2);
-            if (!Number.isInteger(solution)) round();
-            populateDisplay(solution);
-            continueCalc();
-       }
+       previousCalc();
        delay();
     });
 });
@@ -278,11 +283,12 @@ document.addEventListener("keydown", (event) => {
     let key = event.key;
     let type;
     if (Number.isInteger(+key)) {
-        manageNums(key);
+        manageNums(+key);
         type = "input";
     } else if (operatorList.includes(key)) {
         handleOperators(key);
         type = "operator";
+        previousCalc();
         delay();
     } else if (key === "Enter" || key === "=") {
         handleEquals();
