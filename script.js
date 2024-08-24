@@ -70,6 +70,7 @@ function populateDisplay(num) {
 function allClear() {
     if (clearFlag) {
         clearBtn.textContent = "AC";
+
     } else {
         clearBtn.textContent = "C";
     }
@@ -79,6 +80,8 @@ function continueCalc() {
     if (solution !== undefined) {
         num1 = solution;
         num2 = "";
+        num1Flag = true;
+        num2Flag = false;
     }
 }
 
@@ -120,6 +123,7 @@ function handleEquals() {
         populateDisplay(solution);
         delay();
         continueCalc();
+        clearSelected();
     }
 }
 
@@ -134,6 +138,9 @@ function handleClear() {
 }
 
 function handleOperators(key) {
+    if (solution !== "") {
+        continueCalc();
+    }
     switch (key) {
         case "+":
             operatorArr.push(sum);
@@ -163,12 +170,14 @@ function handleBackspace() {
 }
 
 function handleDecimal() {
-    if (num1Flag) {
+    if (num1Flag && !num1.includes(".")) {
         num1 += ".";
         populateDisplay(num1);
-    } else {
+    } else if (!num1Flag && !num2.includes(".")) {
         num2 += ".";
         populateDisplay(num2);
+    } else {
+        boop.play();
     }
 }
 
