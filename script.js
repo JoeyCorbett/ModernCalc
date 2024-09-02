@@ -13,7 +13,7 @@ let clearBtn = document.querySelector(".clear");
 let equals = document.querySelector(".equals");
 let calculator = document.querySelector(".calculator-div");
 let topBtns = document.querySelectorAll(".clear, .plus-minus, .percent");
-let operatorBtns = document.querySelectorAll(".operator, .equals")
+let operatorBtns = document.querySelectorAll(".operator, .equals");
 let buttons = document.querySelector(".buttons");
 let operators = document.querySelectorAll(".divide, .multiply, .addition, .subtract");
 let percentBtn = document.querySelector(".percent");
@@ -52,8 +52,8 @@ function multiply(a, b) {
 function divide(a, b) {
     if (b === 0) {
         displayNum.textContent = "Error";
-        num1 = 0;
-        num2 = 0;
+        num1 = "";
+        num2 = "";
     } 
     else return a / b;
 }
@@ -66,11 +66,9 @@ function populateDisplay(num) {
     if (num !== undefined) displayNum.textContent = num;
 }
 
-
 function allClear() {
     if (clearFlag) {
         clearBtn.textContent = "AC";
-
     } else {
         clearBtn.textContent = "C";
     }
@@ -80,7 +78,6 @@ function continueCalc() {
     if (solution !== undefined) {
         num1 = solution;
         num2 = "";
-        num1Flag = true;
         num2Flag = false;
     }
 }
@@ -98,7 +95,7 @@ function previousCalc() {
         if (!Number.isInteger(solution)) round();
         populateDisplay(solution);
         continueCalc();
-   }
+    }
 }
 
 function manageNums(num) {
@@ -114,14 +111,12 @@ function manageNums(num) {
     allClear();
 }
 
-
 function handleEquals() {
     if (!num1Flag && num2Flag) {
         let n = operatorArr.length;
         solution = operate(operatorArr[n - 1], +num1, +num2);
         if (!Number.isInteger(solution)) round();
         populateDisplay(solution);
-        delay();
         continueCalc();
         clearSelected();
     }
@@ -156,6 +151,7 @@ function handleOperators(key) {
             break;
     }
     num1Flag = false;
+    num2Flag = false;
 }
 
 function handleBackspace() {
@@ -201,14 +197,12 @@ function checkDecimals() {
     return true;
 }
 
-
 numBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
         let value = e.target.innerHTML;
         manageNums(value);
     });
 });
-
 
 clearBtn.addEventListener("click", () => {
     handleClear();
@@ -219,32 +213,28 @@ calculator.addEventListener('dblclick', (event) => {
     event.preventDefault();
 }, { passive: false });
 
-
 operators.forEach(btn => {
     btn.addEventListener("click", (event) => {
-       if (event.target.classList.contains("divide")) {
+        if (event.target.classList.contains("divide")) {
             operatorArr.push(divide);
-       } else if (event.target.classList.contains("multiply")) {
+        } else if (event.target.classList.contains("multiply")) {
             operatorArr.push(multiply);
-       } else if (event.target.classList.contains("subtract")) {
+        } else if (event.target.classList.contains("subtract")) {
             operatorArr.push(subtract);
-       } else if (event.target.classList.contains("addition")) {
+        } else if (event.target.classList.contains("addition")) {
             operatorArr.push(sum);
-       }
+        }
 
-       num1Flag = false;
-
-       previousCalc();
-       delay();
+        num1Flag = false;
+        previousCalc();
+        delay();
     });
 });
-
 
 equals.addEventListener("click", () => {
     handleEquals();
     clearSelected();
 });
-
 
 percentBtn.addEventListener("click", () => {
     if (num1Flag && num1 >= 0.001) {
@@ -259,9 +249,6 @@ percentBtn.addEventListener("click", () => {
         continueCalc();
     }
 });
-
-// If positive, convert to negative
-// If negative, convert to positive
 
 negationBtn.addEventListener("click", () => {
     if (num1Flag && Math.sign(num1) == 1) {
