@@ -128,6 +128,8 @@ function handleClear() {
     num2Flag = false;
     num1 = "";
     num2 = "";
+    solution = "";
+    operatorArr = [];
     clearFlag = true;
     allClear();
 }
