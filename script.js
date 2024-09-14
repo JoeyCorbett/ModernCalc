@@ -286,6 +286,7 @@ decimalBtn.addEventListener("click", () => {
 document.addEventListener("keydown", (event) => {
     let key = event.key;
     let type;
+    removeFocusFromButtons();
     if (Number.isInteger(+key)) {
         manageNums(+key);
         type = "input";
@@ -424,4 +425,10 @@ operators.forEach((button) => {
         button.classList.add('selected');
     });
 });
+
+function removeFocusFromButtons() {
+    document.querySelectorAll('button').forEach(btn => {
+        btn.blur(); // Remove focus from button
+    });
+}
 
